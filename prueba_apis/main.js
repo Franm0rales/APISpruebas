@@ -1,23 +1,72 @@
-
 function agregarUsuarios() {
-    const request= new XMLHttpRequest();
-    request.onreadystatechange= function(){
-        console.log(`Estado actual ${this.readyState}`);
-        if(this.readyState == 4 && this.status ==200){
-        let response = JSON.parse(this.responseText);
-        let userDiv= document.getElementById("user");
-        const users = response.data;
-        let htmlContent;
-        for(i=0;i<users.length;i++){
-            htmlContent+= `<div class= card>${users[i].firstName} ${users[i].lastName}</div>`;
-            
-        }
-           
-            userDiv.innerHTML=htmlContent;
-        }
+  const request = new XMLHttpRequest();
+  request.onreadystatechange = function () {
+    console.log(`Estado actual ${this.readyState}`);
+    if (this.readyState == 4 && this.status == 200) {
+      let response = JSON.parse(this.responseText);
+      let userDiv = document.getElementById("user");
+      const users = response.data;
+      let htmlContent = "<div >";
+      let largo = Math.floor(response.total / 10);
+      if (response.total % 10 != 0) {
+        largo + 1;
+      }
+      for (let i = 0; i < users.length; i++) {
+        htmlContent += `<div><a href="/datosusers.html"><img src =${users[i].picture}></a> ${users[i].firstName} ${users[i].lastName}</div>`;
+      }
+      htmlContent += "</div>";
+      let pagination = `<ul class="pagination d-flex justify-content-center" >`;
+      for (let i = 1; i <= largo; i++) {
+        pagination += `<li onclick="paginacion(${i})" class="page-item"><a class="page-link" >${i}</li>`;
+      }
+      console.log(largo);
+      pagination += "</ul>";
+      let page = document.getElementById("paginas");
+      page.innerHTML = pagination;
+      userDiv.innerHTML = htmlContent;
     }
-
-  request.open("GET", "https://dummyapi.io/data/v1/user?limit=", true);
+  };
+  request.open("GET", "https://dummyapi.io/data/v1/user?limit=10", true);
+  request.setRequestHeader("app-id", "63768ca658fe3b89e06f1d96");
+  request.send();
+}
+function paginacion(x) {
+  const request = new XMLHttpRequest();
+  request.onreadystatechange = function () {
+    console.log(`Estado actual ${this.readyState}`);
+    if (this.readyState == 4 && this.status == 200) {
+      let response = JSON.parse(this.responseText);
+      let userDiv = document.getElementById("user");
+      const users = response.data;
+      let htmlContent = "<div>";
+      for (i = x * 10 - 10; i < x * 10; i++) {
+        htmlContent += `<div ><img src =${users[i].picture}> ${users[i].firstName} ${users[i].lastName}</div>`;
+      }
+      htmlContent += "</div>";
+      userDiv.innerHTML = htmlContent;
+    }
+  };
+  request.open("GET", "https://dummyapi.io/data/v1/user?limit", true);
+  request.setRequestHeader("app-id", "63768ca658fe3b89e06f1d96");
+  request.send();
+}
+function datosUser() {
+  const request = new XMLHttpRequest();
+  request.onreadystatechange = function () {
+    console.log(`Estado actual ${this.readyState}`);
+    if (this.readyState == 4 && this.status == 200) {
+      let response = JSON.parse(this.responseText);
+      let userDiv = document.getElementById("datos");
+      let htmlContent = `id: ${response.id} ${response.firstName}`;
+      userDiv.innerHTML = htmlContent;
+      console.log(users);
+    }
+  };
+  request.open(
+    "GET",
+    "https://dummyapi.io/data/v1/user/60d0fe4f5311236168a109cc",
+    true
+  );
   request.setRequestHeader("app-id", "63768ca658fe3b89e06f1d96");
   request.send();
 }

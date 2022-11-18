@@ -18,12 +18,14 @@
     color: white;
   }
 
-  #user{
+  .user{
     width: min(100%, 1000px);
     margin: 100px auto;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    background-color: rgb(187, 70, 49);
+    border: 2px solid;
   }
 
   .card{
