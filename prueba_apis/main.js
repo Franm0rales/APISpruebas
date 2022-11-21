@@ -57,9 +57,13 @@ function datosUser() {
     if (this.readyState == 4 && this.status == 200) {
       let response = JSON.parse(this.responseText);
       let userDiv = document.getElementById("datos");
-      let htmlContent = `id: ${response.id} ${response.firstName}`;
+      let htmlContent = `<div>id: ${response.id} <br></br>Title:${response.title} <br></br>Nombre:${response.firstName}<br></br> 
+      Apellido:${response.lastName} <br></br>Url foto:${response.picture}<br></br> Genero:${response.gender}<br></br>email:${response.email} 
+      <br></br>dateOfBirth:${response.dateOfBirth}<br></br>Phone:${response.phone}<br></br>Location<br></br>Street:${response.location.street}
+      <br></br>city:${response.location.city}<br></br>state:${response.location.state}<br></br>country:${response.location.country}
+      <br></br>timezone:${response.location.timezone}<br></br>registerDate:${response.registerDate}<br></br>updatedDate:${response.updatedDate}</div>`;
       userDiv.innerHTML = htmlContent;
-      console.log(users);
+      
     }
   };
   request.open(
