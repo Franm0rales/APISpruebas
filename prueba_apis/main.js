@@ -74,3 +74,76 @@ function datosUser() {
   request.setRequestHeader("app-id", "63768ca658fe3b89e06f1d96");
   request.send();
 }
+function datosUser() {
+  const request = new XMLHttpRequest();
+  request.onreadystatechange = function () {
+    console.log(`Estado actual ${this.readyState}`);
+    if (this.readyState == 4 && this.status == 200) {
+      let response = JSON.parse(this.responseText);
+      let userDiv = document.getElementById("datos");
+      let htmlContent = `<div>id: ${response.id} <br></br>Title:${response.title} <br></br>Nombre:${response.firstName}<br></br> 
+      Apellido:${response.lastName} <br></br>Url foto:${response.picture}<br></br> Genero:${response.gender}<br></br>email:${response.email} 
+      <br></br>dateOfBirth:${response.dateOfBirth}<br></br>Phone:${response.phone}<br></br>Location<br></br>Street:${response.location.street}
+      <br></br>city:${response.location.city}<br></br>state:${response.location.state}<br></br>country:${response.location.country}
+      <br></br>timezone:${response.location.timezone}<br></br>registerDate:${response.registerDate}<br></br>updatedDate:${response.updatedDate}</div>`;
+      userDiv.innerHTML = htmlContent;
+      
+    }
+  };
+  request.open("GET","https://dummyapi.io/data/v1/user/60d0fe4f5311236168a109cc",true);
+  request.setRequestHeader("app-id", "63768ca658fe3b89e06f1d96");
+  request.send();
+}
+function postUser() {
+  const request = new XMLHttpRequest();
+  request.onreadystatechange = function () {
+    console.log(`Estado actual ${this.readyState}`);
+    if (this.readyState == 4 && this.status == 200) {
+      let response = JSON.parse(this.responseText);
+      let userDiv = document.getElementById("post");
+      const users = response.data;
+      let htmlContent="<ul>"
+      let tags="";
+      let owner=""
+      for (let i = 0; i < response.limit; i++) {
+       
+        tags=users[i].tags
+        owner=users[i].owner
+        htmlContent += `<div>${users[i].id}<br><img width="80px"src="${users[i].image}"><br></img>likes:${users[i].likes}<br>${tags}
+        <br>${users[i].text}<br> ${users[i].publishDate}<br>${owner.id}<br>${owner.title}<br>${owner.firstName}<br>${owner.lastName}
+        <br>${owner.picture}</div>`;
+        
+      }
+      userDiv.innerHTML = htmlContent
+    }
+  }  
+  request.open("GET", "https://dummyapi.io/data/v1/post?limit=10", true);
+  request.setRequestHeader("app-id", "63768ca658fe3b89e06f1d96");
+  request.send();
+}
+function postTags() {
+  const request = new XMLHttpRequest();
+  request.onreadystatechange = function () {
+    console.log(`Estado actual ${this.readyState}`);
+    if (this.readyState == 4 && this.status == 200) {
+      let response = JSON.parse(this.responseText);
+      let userDiv = document.getElementById("post");
+      const users = response.data;
+      let htmlContent="<ul>"
+      let tags="";
+      let owner=""
+      for (let i = 0; i < response.limit; i++) {
+        tags=users[i].tags
+        owner=users[i].owner
+        htmlContent += `<div>${users[i].id}<br><img width="80px"src="${users[i].image}"><br></img>likes:${users[i].likes}<br>${tags}
+        <br>${users[i].text}<br> ${users[i].publishDate}<br>${owner.id}<br>${owner.title}<br>${owner.firstName}<br>${owner.lastName}
+        <br>${owner.picture}</div>`;
+        
+      }
+      userDiv.innerHTML = htmlContent
+    }
+  }  
+  request.open("GET", "https://dummyapi.io/data/v1/tag/water/post?limit=10", true);
+  request.setRequestHeader("app-id", "63768ca658fe3b89e06f1d96");
+  request.send();
+}
